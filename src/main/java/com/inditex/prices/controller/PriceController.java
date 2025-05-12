@@ -1,6 +1,7 @@
 package com.inditex.prices.controller;
 
 import com.inditex.prices.dto.PriceResponse;
+import com.inditex.prices.exception.EntityNotFoundException;
 import com.inditex.prices.service.PriceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +37,12 @@ public class PriceController {
                     .map(p -> new PriceResponse(p.getProductId(), p.getBrandId(), p.getPriceList(),
                             p.getStartDate(), p.getEndDate(), p.getPrice(), p.getCurr()))
                     .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+                    .orElseThrow(() -> new EntityNotFoundException("Precio no encontrado"));
 
         } catch (DateTimeParseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato de fecha inválido. Use 'yyyy-MM-dd-HH.mm.ss'.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
