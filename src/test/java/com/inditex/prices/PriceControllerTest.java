@@ -20,7 +20,7 @@ public class PriceControllerTest {
     @Test
     void test1() throws Exception {
         mockMvc.perform(get(URL)
-                        .param("start_date", "2020-06-14-10.00.00")
+                        .param("date", "2020-06-14-10.00.00")
                         .param("productId", "35455")
                         .param("brandId", "1"))
                 .andExpect(status().isOk())
@@ -30,7 +30,7 @@ public class PriceControllerTest {
     @Test
     void test2() throws Exception {
         mockMvc.perform(get(URL)
-                        .param("start_date", "2020-06-14-16.00.00")
+                        .param("date", "2020-06-14-16.00.00")
                         .param("productId", "35455")
                         .param("brandId", "1"))
                 .andExpect(status().isOk())
@@ -41,7 +41,7 @@ public class PriceControllerTest {
     @Test
     void test3() throws Exception {
         mockMvc.perform(get(URL)
-                        .param("start_date", "2020-06-14-21.00.00")
+                        .param("date", "2020-06-14-21.00.00")
                         .param("productId", "35455")
                         .param("brandId", "1"))
                 .andExpect(status().isOk())
@@ -51,7 +51,7 @@ public class PriceControllerTest {
     @Test
     void test4() throws Exception {
         mockMvc.perform(get(URL)
-                        .param("start_date", "2020-06-15-10.00.00")
+                        .param("date", "2020-06-15-10.00.00")
                         .param("productId", "35455")
                         .param("brandId", "1"))
                 .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class PriceControllerTest {
     @Test
     void test5() throws Exception {
         mockMvc.perform(get(URL)
-                        .param("start_date", "2020-06-16-21.00.00")
+                        .param("date", "2020-06-16-21.00.00")
                         .param("productId", "35455")
                         .param("brandId", "1"))
                 .andExpect(status().isOk())
