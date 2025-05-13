@@ -1,8 +1,8 @@
-package com.inditex.prices.controller;
+package com.inditex.prices.adapter.in;
 
-import com.inditex.prices.dto.PriceResponse;
+import com.inditex.prices.application.PriceService;
+import com.inditex.prices.domain.Price;
 import com.inditex.prices.exception.EntityNotFoundException;
-import com.inditex.prices.service.PriceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,16 +33,14 @@ public class PriceController {
         try {
             LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss"));
 
-            return priceService.getPrice(dateTime, productId, brandId)
-                    .map(p -> new PriceResponse(p.getProductId(), p.getBrandId(), p.getPriceList(),
-                            p.getStartDate(), p.getEndDate(), p.getPrice(), p.getCurr()))
-                    .map(ResponseEntity::ok)
-                    .orElseThrow(() -> new EntityNotFoundException("Precio no encontrado"));
-
-        } catch (DateTimeParseException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato de fecha inválido. Use 'yyyy-MM-dd-HH.mm.ss'.");
+            Price price = priceService.getPrice(dateTime, productId, brandId);
+            return ResponseEntity.ok(price);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error en los parámetros de entrada.");
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato de fecha inválido. Use 'yyyy-MM-dd-HH.mm.ss'.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
