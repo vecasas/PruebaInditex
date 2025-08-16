@@ -20,6 +20,7 @@ public class PriceController {
 
     private final PriceService priceService;
 
+
     public PriceController(PriceService priceService) {
         this.priceService = priceService;
     }
@@ -29,7 +30,6 @@ public class PriceController {
             @RequestParam String date,
             @RequestParam Long productId,
             @RequestParam Long brandId) {
-
 
         try {
             LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss"));
