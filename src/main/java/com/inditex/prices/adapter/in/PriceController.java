@@ -30,6 +30,7 @@ public class PriceController {
             @RequestParam Long productId,
             @RequestParam Long brandId) {
 
+
         try {
             LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss"));
 
